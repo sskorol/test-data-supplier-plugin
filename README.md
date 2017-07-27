@@ -5,8 +5,15 @@ Currently plugin provides very simple inspections support to determine methods a
 
 Apart from that, you'll be able to navigate to specified **dataProvider** in **Test** annotation.
 
-Future releases may include more features, including duplicates checks and bi-directional navigation.
+Future releases may include more features: duplicates checks and bi-directional navigation.
 
 Note that to avoid clashes with integrated TestNG plugin, you have to disable common DataProvider inspections:
 
 ![image](https://user-images.githubusercontent.com/6638780/28659256-80fc5222-72b7-11e7-83bf-896b205c0527.png)
+
+After plugin installation, you'll be able to see the following inspections:
+
+![image](https://user-images.githubusercontent.com/6638780/28659976-eaa2f79c-72b9-11e7-802a-17d34fbfdb98.png)
+
+ - Missing DS will be marked red for **Test** annotations.
+ - Clicking **dataProvider** arg value will trigger navigation to corresponding DS.
