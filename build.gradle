@@ -1,0 +1,43 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+}
+
+plugins {
+    id "org.jetbrains.intellij" version "0.2.15"
+}
+
+group 'io.github.sskorol'
+version '0.0.1'
+
+apply plugin: 'idea'
+apply plugin: 'org.jetbrains.intellij'
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'io.github.sskorol:test-data-supplier:1.0.0'
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion '4.0.1'
+}
+
+intellij {
+    version 'IU-2017.2'
+    pluginName 'Test Data Supplier'
+}
+
+publishPlugin {
+    String uName = project.hasProperty('uName') ? project.property('uName') : System.getenv('USERNAME')
+    String uPass = project.hasProperty('uPass') ? project.property('uPass') : System.getenv('PASSWORD')
+
+    username "${uName}"
+    password "${uPass}"
+}
