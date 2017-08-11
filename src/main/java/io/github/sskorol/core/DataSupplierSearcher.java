@@ -4,7 +4,6 @@ import com.intellij.openapi.application.QueryExecutorBase;
 import com.intellij.psi.*;
 import com.intellij.psi.search.searches.MethodReferencesSearch;
 import com.intellij.util.Processor;
-import io.github.sskorol.dataprovider.DataSupplier;
 import org.jetbrains.annotations.NotNull;
 
 import static com.intellij.codeInsight.AnnotationUtil.findAnnotation;

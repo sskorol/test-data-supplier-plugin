@@ -9,7 +9,7 @@ plugins {
 }
 
 group 'io.github.sskorol'
-version '0.0.1'
+version '0.0.2'
 
 apply plugin: 'idea'
 apply plugin: 'org.jetbrains.intellij'
@@ -22,11 +22,11 @@ repositories {
 }
 
 dependencies {
-    compile 'io.github.sskorol:test-data-supplier:1.0.0'
+    compile 'io.github.sskorol:test-data-supplier:1.1.0'
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion '4.0.1'
+    gradleVersion '4.1'
 }
 
 intellij {
