@@ -1,4 +1,6 @@
 # Test Data Supplier
+[![IntelliJ IDEA Plugin](https://img.shields.io/badge/Download-latest-brightgreen.svg)](https://plugins.jetbrains.com/plugin/9868-test-data-supplier-plugin)
+
 IntelliJ IDEA integration for [Test Data Supplier](https://github.com/sskorol/test-data-supplier) library.
 
 Currently plugin provides very simple inspections support to determine methods annotated with **DataSupplier** (DS) annotation, so that you could easily track missing DS errors, and avoid unused methods' warnings.
