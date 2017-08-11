@@ -3,7 +3,7 @@ package io.github.sskorol.utils;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
 import com.intellij.psi.*;
 import com.intellij.util.IncorrectOperationException;
-import io.github.sskorol.dataprovider.DataSupplier;
+import io.github.sskorol.core.DataSupplier;
 import io.vavr.Tuple;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
