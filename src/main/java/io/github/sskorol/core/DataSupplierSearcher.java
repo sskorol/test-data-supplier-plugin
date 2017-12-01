@@ -23,11 +23,15 @@ public class DataSupplierSearcher extends QueryExecutorBase<PsiReference, Method
         ofNullable(findAnnotation(queryParameters.getMethod(), DataSupplier.class.getName()))
                 .map(a -> a.findDeclaredAttributeValue("name"))
                 .map(n -> unquoteString(n.getText()))
-                .ifPresent(name -> queryParameters.getOptimizer().searchWord(
-                        name,
-                        queryParameters.getEffectiveSearchScope(),
-                        IN_STRINGS,
-                        true,
-                        queryParameters.getMethod()));
+                .ifPresent(name -> searchWord(name, queryParameters));
+    }
+
+    private void searchWord(final String name, final MethodReferencesSearch.SearchParameters queryParameters) {
+        queryParameters.getOptimizer().searchWord(
+                name,
+                queryParameters.getEffectiveSearchScope(),
+                IN_STRINGS,
+                true,
+                queryParameters.getMethod());
     }
 }
