@@ -6,6 +6,7 @@ import com.intellij.psi.filters.ElementFilter;
 import com.intellij.psi.filters.position.FilterPattern;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
+import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
 
 import static com.intellij.patterns.PlatformPatterns.psiElement;
@@ -30,14 +31,14 @@ public class DataSupplierUtils {
     }
 
     public static PsiElementPattern.Capture<PsiLiteral> getDataProviderPattern() {
-        return psiElement(PsiLiteral.class).and(new FilterPattern(new TestAnnotationFilter("dataProvider")));
+        return psiElement(PsiLiteral.class).and(new FilterPattern(new AnnotationFilter("dataProvider")));
     }
 
-    private static class TestAnnotationFilter implements ElementFilter {
+    private static class AnnotationFilter implements ElementFilter {
 
         private final String parameterName;
 
-        TestAnnotationFilter(@NotNull @NonNls final String parameterName) {
+        AnnotationFilter(@NotNull @NonNls final String parameterName) {
             this.parameterName = parameterName;
         }
 
@@ -45,7 +46,8 @@ public class DataSupplierUtils {
             return ofNullable(getParentOfType(context, PsiNameValuePair.class, false, PsiMember.class, PsiStatement.class))
                     .filter(p -> parameterName.equals(p.getName()))
                     .map(p -> getParentOfType(p, PsiAnnotation.class))
-                    .filter(a -> Test.class.getName().equals(a.getQualifiedName()))
+                    .map(PsiAnnotation::getQualifiedName)
+                    .filter(name -> Test.class.getName().equals(name) || Factory.class.getName().equals(name))
                     .isPresent();
         }
 
