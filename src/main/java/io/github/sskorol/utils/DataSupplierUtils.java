@@ -4,14 +4,21 @@ import com.intellij.patterns.PsiElementPattern;
 import com.intellij.psi.*;
 import com.intellij.psi.filters.ElementFilter;
 import com.intellij.psi.filters.position.FilterPattern;
+import one.util.streamex.StreamEx;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
 
+import java.util.Optional;
+import java.util.function.Function;
+
 import static com.intellij.patterns.PlatformPatterns.psiElement;
+import static com.intellij.psi.search.GlobalSearchScope.allScope;
+import static com.intellij.psi.search.searches.ClassInheritorsSearch.search;
 import static com.intellij.psi.util.PsiTreeUtil.getParentOfType;
 import static com.intellij.psi.util.PsiUtil.resolveClassInType;
+import static java.util.Objects.nonNull;
 import static java.util.Optional.ofNullable;
 
 public class DataSupplierUtils {
@@ -24,10 +31,29 @@ public class DataSupplierUtils {
     
     public static PsiClass getDataProviderClass(final PsiElement element, final PsiClass topLevelClass) {
         return ofNullable(getParentOfType(element, PsiAnnotation.class))
-                .map(a -> a.findDeclaredAttributeValue("dataProviderClass"))
-                .filter(val -> val instanceof PsiClassObjectAccessExpression)
-                .map(val -> resolveClassInType(((PsiClassObjectAccessExpression)val).getOperand().getType()))
-                .orElse(topLevelClass);
+            .flatMap(toDataProviderClass())
+            .orElse(getDataProviderClass(topLevelClass));
+    }
+
+    public static PsiClass getDataProviderClass(final PsiClass topLevelClass) {
+        return ofNullable(topLevelClass)
+            .map(topClass -> search(topClass, allScope(topClass.getProject()), true))
+            .flatMap(query -> StreamEx.of(query.findAll())
+                .flatArray(PsiModifierListOwner::getAnnotations)
+                .findFirst(annotation -> nonNull(toDataProviderAttribute().apply(annotation))))
+            .flatMap(toDataProviderClass())
+            .orElse(topLevelClass);
+    }
+
+    public static Function<PsiAnnotation, Optional<PsiClass>> toDataProviderClass() {
+        return annotation -> ofNullable(annotation)
+            .map(toDataProviderAttribute())
+            .filter(val -> val instanceof PsiClassObjectAccessExpression)
+            .map(val -> resolveClassInType(((PsiClassObjectAccessExpression) val).getOperand().getType()));
+    }
+
+    public static Function<PsiAnnotation, PsiAnnotationMemberValue> toDataProviderAttribute() {
+        return annotation -> annotation.findDeclaredAttributeValue("dataProviderClass");
     }
 
     public static PsiElementPattern.Capture<PsiLiteral> getDataProviderPattern() {
