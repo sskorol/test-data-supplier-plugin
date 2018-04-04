@@ -10,6 +10,9 @@
     ]]></description>
 
 	<change-notes><![CDATA[
+		Release 0.2.0:<br>
+		Migrated to new IntelliJ version.<br>
+		Updated outdated dependencies.<br><br>
 		Release 0.1.5:<br>
 		Added test classes' subtypes scanning support.<br>
 		Updated outdated dependencies.<br><br>
@@ -24,7 +27,7 @@
     ]]>
 	</change-notes>
 
-	<idea-version since-build="162"/>
+	<idea-version since-build="181"/>
 
 	<extensions defaultExtensionNs="com.intellij">
 		<psi.referenceContributor language="JAVA" implementation="io.github.sskorol.core.DataProviderReferenceContributor"/>
