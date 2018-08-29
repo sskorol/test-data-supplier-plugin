@@ -5,11 +5,11 @@ buildscript {
 }
 
 plugins {
-    id 'org.jetbrains.intellij' version '0.3.1'
+    id 'org.jetbrains.intellij' version '0.3.7'
 }
 
 group = 'io.github.sskorol'
-version = '0.2.0'
+version = '0.2.1'
 
 apply plugin: 'idea'
 apply plugin: 'org.jetbrains.intellij'
@@ -22,15 +22,15 @@ repositories {
 }
 
 dependencies {
-    compile 'io.github.sskorol:test-data-supplier:1.5.5'
+    compile 'io.github.sskorol:test-data-supplier:1.7.0'
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '4.6'
+    gradleVersion = '4.8.1'
 }
 
 intellij {
-    version = 'IU-2018.1'
+    version = 'IU-2018.2'
     pluginName = 'Test Data Supplier'
 }
 

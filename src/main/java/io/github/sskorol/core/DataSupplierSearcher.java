@@ -19,7 +19,7 @@ public class DataSupplierSearcher extends QueryExecutorBase<PsiReference, Method
 
     @Override
     public void processQuery(@NotNull final MethodReferencesSearch.SearchParameters queryParameters,
-                             @NotNull final Processor<PsiReference> consumer) {
+                             @NotNull final Processor<? super PsiReference> consumer) {
         ofNullable(findAnnotation(queryParameters.getMethod(), DataSupplier.class.getName()))
                 .map(a -> a.findDeclaredAttributeValue("name"))
                 .map(n -> unquoteString(n.getText()))
