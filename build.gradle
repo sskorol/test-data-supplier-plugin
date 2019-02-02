@@ -5,11 +5,11 @@ buildscript {
 }
 
 plugins {
-    id 'org.jetbrains.intellij' version '0.3.7'
+    id 'org.jetbrains.intellij' version '0.4.2'
 }
 
 group = 'io.github.sskorol'
-version = '0.2.1'
+version = '0.2.2'
 
 apply plugin: 'idea'
 apply plugin: 'org.jetbrains.intellij'
@@ -19,18 +19,17 @@ sourceCompatibility = 1.8
 
 repositories {
     jcenter()
+    maven {
+        url "http://maven.springframework.org/milestone"
+    }
 }
 
 dependencies {
-    compile 'io.github.sskorol:test-data-supplier:1.7.0'
-}
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '4.8.1'
+    compile ('io.github.sskorol:test-data-supplier:1.7.0')
 }
 
 intellij {
-    version = 'IU-2018.2'
+    version = 'IU-2018.3'
     pluginName = 'Test Data Supplier'
 }
 

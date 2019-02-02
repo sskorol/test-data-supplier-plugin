@@ -1,7 +1,7 @@
 <idea-plugin>
 	<id>io.github.sskorol</id>
-	<name>test-data-supplier-plugin</name>
-	<version>0.1.5</version>
+	<name>test-data-supplier</name>
+	<version>0.2.2</version>
 	<vendor email="serhii.s.korol@gmail.com" url="https://github.com/sskorol">Sergey Korol</vendor>
 
 	<description><![CDATA[
@@ -10,6 +10,9 @@
     ]]></description>
 
 	<change-notes><![CDATA[
+		Release 0.2.2 (last compatible with Java 8 version):<br>
+		Migrated to IntelliJ 2018.3 version.<br>
+		Updated outdated dependencies.<br><br>
 		Release 0.2.1:<br>
 		Migrated to IntelliJ 2018.2 version.<br>
 		Updated outdated dependencies.<br><br>
@@ -30,7 +33,7 @@
     ]]>
 	</change-notes>
 
-	<idea-version since-build="182"/>
+	<idea-version since-build="183"/>
 
 	<extensions defaultExtensionNs="com.intellij">
 		<psi.referenceContributor language="JAVA" implementation="io.github.sskorol.core.DataProviderReferenceContributor"/>
