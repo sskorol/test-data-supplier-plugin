@@ -3,7 +3,6 @@ package io.github.sskorol.utils;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
 import com.intellij.psi.*;
 import com.intellij.util.IncorrectOperationException;
-import io.github.sskorol.core.DataSupplier;
 import io.vavr.Tuple;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -15,6 +14,7 @@ import static com.intellij.codeInsight.AnnotationUtil.findAnnotation;
 import static com.intellij.openapi.util.text.StringUtil.unquoteString;
 import static com.intellij.psi.util.PsiTreeUtil.getParentOfType;
 import static com.intellij.psi.util.PsiUtil.getTopLevelClass;
+import static io.github.sskorol.utils.DataSupplierUtils.DATA_SUPPLIER_ANNOTATION_PATH;
 import static io.github.sskorol.utils.DataSupplierUtils.getDataProviderClass;
 import static java.util.Optional.ofNullable;
 
@@ -35,7 +35,7 @@ public class DataSupplierReference extends PsiReferenceBase<PsiLiteral> {
     public PsiElement resolve() {
         return ofNullable(getDataProviderClass(getElement(), getTopLevelClass(getElement())))
                 .flatMap(c -> Stream.of(c.getAllMethods())
-                                    .map(m -> Tuple.of(m, findAnnotation(m, DataSupplier.class.getName())))
+                                    .map(m -> Tuple.of(m, findAnnotation(m, DATA_SUPPLIER_ANNOTATION_PATH)))
                                     .filter(t -> Objects.nonNull(t._2))
                                     .map(t -> Tuple.of(t._1, t._2.findDeclaredAttributeValue("name")))
                                     .filter(t -> isResolvable(t._2, t._1.getName()))
@@ -51,7 +51,7 @@ public class DataSupplierReference extends PsiReferenceBase<PsiLiteral> {
                                   .filter(m -> ofNullable(getParentOfType(getElement(), PsiMethod.class))
                                           .filter(c -> m.getName().equals(c.getName())).isPresent())
                                   .filter(m -> cls == m.getContainingClass() && m.hasModifierProperty(PsiModifier.PUBLIC))
-                                  .map(m -> Tuple.of(m, findAnnotation(m, DataSupplier.class.getName())))
+                                  .map(m -> Tuple.of(m, findAnnotation(m, DATA_SUPPLIER_ANNOTATION_PATH)))
                                   .filter(t -> Objects.nonNull(t._2))
                                   .map(t -> Tuple.of(t._1, t._2.findDeclaredAttributeValue("name")))
                                   .map(t -> Objects.nonNull(t._2)

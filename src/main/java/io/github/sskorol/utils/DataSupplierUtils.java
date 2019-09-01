@@ -7,8 +7,6 @@ import com.intellij.psi.filters.position.FilterPattern;
 import one.util.streamex.StreamEx;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
-import org.testng.annotations.Factory;
-import org.testng.annotations.Test;
 
 import java.util.Optional;
 import java.util.function.Function;
@@ -22,6 +20,10 @@ import static java.util.Objects.nonNull;
 import static java.util.Optional.ofNullable;
 
 public class DataSupplierUtils {
+
+    public static final String TEST_ANNOTATION_PATH = "org.testng.annotations.Test";
+    public static final String FACTORY_ANNOTATION_PATH = "org.testng.annotations.Factory";
+    public static final String DATA_SUPPLIER_ANNOTATION_PATH = "io.github.sskorol.core.DataSupplier";
     
     public static boolean isTestDisabled(PsiAnnotation annotation) {
         return ofNullable(annotation.findDeclaredAttributeValue("enabled"))
@@ -73,7 +75,7 @@ public class DataSupplierUtils {
                     .filter(p -> parameterName.equals(p.getName()))
                     .map(p -> getParentOfType(p, PsiAnnotation.class))
                     .map(PsiAnnotation::getQualifiedName)
-                    .filter(name -> Test.class.getName().equals(name) || Factory.class.getName().equals(name))
+                    .filter(name -> TEST_ANNOTATION_PATH.equals(name) || FACTORY_ANNOTATION_PATH.equals(name))
                     .isPresent();
         }
 

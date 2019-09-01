@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import static com.intellij.codeInsight.AnnotationUtil.findAnnotation;
 import static com.intellij.openapi.util.text.StringUtil.unquoteString;
 import static com.intellij.psi.search.UsageSearchContext.IN_STRINGS;
+import static io.github.sskorol.utils.DataSupplierUtils.DATA_SUPPLIER_ANNOTATION_PATH;
 import static java.util.Optional.ofNullable;
 
 public class DataSupplierSearcher extends QueryExecutorBase<PsiReference, MethodReferencesSearch.SearchParameters> {
@@ -20,7 +21,7 @@ public class DataSupplierSearcher extends QueryExecutorBase<PsiReference, Method
     @Override
     public void processQuery(@NotNull final MethodReferencesSearch.SearchParameters queryParameters,
                              @NotNull final Processor<? super PsiReference> consumer) {
-        ofNullable(findAnnotation(queryParameters.getMethod(), DataSupplier.class.getName()))
+        ofNullable(findAnnotation(queryParameters.getMethod(), DATA_SUPPLIER_ANNOTATION_PATH))
                 .map(a -> a.findDeclaredAttributeValue("name"))
                 .map(n -> unquoteString(n.getText()))
                 .ifPresent(name -> searchWord(name, queryParameters));

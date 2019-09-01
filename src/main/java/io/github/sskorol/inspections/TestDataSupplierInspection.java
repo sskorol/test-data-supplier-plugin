@@ -7,10 +7,8 @@ import com.intellij.psi.*;
 import io.github.sskorol.utils.DataSupplierReference;
 import one.util.streamex.StreamEx;
 import org.jetbrains.annotations.NotNull;
-import org.testng.annotations.Factory;
-import org.testng.annotations.Test;
 
-import static io.github.sskorol.utils.DataSupplierUtils.isTestDisabled;
+import static io.github.sskorol.utils.DataSupplierUtils.*;
 import static java.util.Optional.ofNullable;
 
 public class TestDataSupplierInspection extends AbstractBaseJavaLocalInspectionTool {
@@ -22,8 +20,8 @@ public class TestDataSupplierInspection extends AbstractBaseJavaLocalInspectionT
             @Override
             public void visitAnnotation(final PsiAnnotation annotation) {
                 ofNullable(annotation)
-                        .filter(a -> (Test.class.getName().equals(a.getQualifiedName()) && !isTestDisabled(a))
-                                || Factory.class.getName().equals(a.getQualifiedName()))
+                        .filter(a -> (TEST_ANNOTATION_PATH.equals(a.getQualifiedName()) && !isTestDisabled(a))
+                                || FACTORY_ANNOTATION_PATH.equals(a.getQualifiedName()))
                         .map(a -> a.findDeclaredAttributeValue("dataProvider"))
                         .ifPresent(provider -> highlightError(provider, holder));
             }

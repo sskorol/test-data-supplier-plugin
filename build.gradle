@@ -1,39 +1,36 @@
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-}
-
 plugins {
-    id 'org.jetbrains.intellij' version '0.4.7'
+    id 'java'
+    id 'idea'
+    id 'org.jetbrains.intellij' version '0.4.10'
 }
 
 group = 'io.github.sskorol'
-version = '0.2.3'
-
-apply plugin: 'idea'
-apply plugin: 'org.jetbrains.intellij'
-apply plugin: 'java'
+version = '0.2.4'
 
 sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
 
 repositories {
     jcenter()
 }
 
 dependencies {
-    compile ('io.github.sskorol:test-data-supplier:1.7.0')
+    compile('io.vavr:vavr:0.10.2')
 }
 
 intellij {
-    version = 'IU-2019.1'
+    version 'IU-2019.2.1'
     pluginName = 'Test Data Supplier'
+    downloadSources = false
+    plugins = ['java']
+}
+
+patchPluginXml {
+    sinceBuild 192
+    untilBuild 193
 }
 
 publishPlugin {
-    String uName = project.hasProperty('uName') ? project.property('uName') : System.getenv('USERNAME')
-    String uPass = project.hasProperty('uPass') ? project.property('uPass') : System.getenv('PASSWORD')
-
-    username "${uName}"
-    password "${uPass}"
+    String uToken = project.hasProperty('token') ? project.property('token') : System.getenv('TOKEN')
+    token "${uToken}"
 }
