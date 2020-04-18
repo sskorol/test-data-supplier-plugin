@@ -1,11 +1,11 @@
 plugins {
     id 'java'
     id 'idea'
-    id 'org.jetbrains.intellij' version '0.4.16'
+    id 'org.jetbrains.intellij' version '0.4.18'
 }
 
 group = 'io.github.sskorol'
-version = '0.2.6'
+version = '0.2.7'
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
@@ -19,13 +19,13 @@ dependencies {
 }
 
 intellij {
-    version 'IU-2019.3'
+    version 'IU-2020.1'
     pluginName = 'Test Data Supplier'
     plugins = ['java']
 }
 
 patchPluginXml {
-    sinceBuild 193
+    sinceBuild 201
 }
 
 publishPlugin {
