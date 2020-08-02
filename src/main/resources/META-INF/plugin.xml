@@ -10,6 +10,8 @@
     ]]></description>
 
 	<change-notes><![CDATA[
+		Release 0.2.8:<br>
+		Migrated to IntelliJ 2020.2 version.<br><br>
 		Release 0.2.7:<br>
 		Migrated to IntelliJ 2020.1 version.<br><br>
 		Release 0.2.6:<br>
