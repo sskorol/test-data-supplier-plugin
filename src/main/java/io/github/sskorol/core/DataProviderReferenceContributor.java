@@ -11,8 +11,7 @@ public class DataProviderReferenceContributor extends PsiReferenceContributor {
 
     public void registerReferenceProviders(final @NotNull PsiReferenceRegistrar registrar) {
         registrar.registerReferenceProvider(getDataProviderPattern(), new PsiReferenceProvider() {
-            @NotNull
-            public PsiReference[] getReferencesByElement(@NotNull final PsiElement element, @NotNull final ProcessingContext context) {
+            public PsiReference @NotNull [] getReferencesByElement(@NotNull final PsiElement element, @NotNull final ProcessingContext context) {
                 return new DataSupplierReference[]{new DataSupplierReference((PsiLiteral) element)};
             }
         });

@@ -44,8 +44,7 @@ public class DataSupplierReference extends PsiReferenceBase<PsiLiteral> {
                 .orElse(null);
     }
 
-    @NotNull
-    public Object[] getVariants() {
+    public Object @NotNull [] getVariants() {
         return ofNullable(getDataProviderClass(getElement(), getTopLevelClass(getElement())))
                 .map(cls -> Stream.of(cls.getAllMethods())
                                   .filter(m -> ofNullable(getParentOfType(getElement(), PsiMethod.class))

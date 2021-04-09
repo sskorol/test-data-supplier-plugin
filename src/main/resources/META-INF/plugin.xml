@@ -1,7 +1,7 @@
 <idea-plugin>
 	<id>io.github.sskorol</id>
-	<name>test-data-supplier</name>
-	<version>0.2.7</version>
+	<name>Test Data Supplier</name>
+	<version>0.3.0</version>
 	<vendor email="serhii.s.korol@gmail.com" url="https://github.com/sskorol">Sergey Korol</vendor>
 
 	<description><![CDATA[
@@ -10,6 +10,10 @@
     ]]></description>
 
 	<change-notes><![CDATA[
+		Release 0.3.0:<br>
+		Migrated to IntelliJ 2021.1 version.<br><br>
+		Release 0.2.9:<br>
+		Migrated to IntelliJ 2020.3 version.<br><br>
 		Release 0.2.8:<br>
 		Migrated to IntelliJ 2020.2 version.<br><br>
 		Release 0.2.7:<br>
@@ -44,7 +48,7 @@
     ]]>
 	</change-notes>
 
-	<idea-version since-build="201"/>
+	<idea-version since-build="211"/>
 
 	<extensions defaultExtensionNs="com.intellij">
 		<psi.referenceContributor language="JAVA" implementation="io.github.sskorol.core.DataProviderReferenceContributor"/>
