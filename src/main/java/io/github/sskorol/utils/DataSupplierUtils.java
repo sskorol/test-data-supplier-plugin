@@ -24,34 +24,34 @@ public class DataSupplierUtils {
     public static final String TEST_ANNOTATION_PATH = "org.testng.annotations.Test";
     public static final String FACTORY_ANNOTATION_PATH = "org.testng.annotations.Factory";
     public static final String DATA_SUPPLIER_ANNOTATION_PATH = "io.github.sskorol.core.DataSupplier";
-    
+
     public static boolean isTestDisabled(PsiAnnotation annotation) {
         return ofNullable(annotation.findDeclaredAttributeValue("enabled"))
                 .filter(val -> val.textMatches("false"))
                 .isPresent();
     }
-    
+
     public static PsiClass getDataProviderClass(final PsiElement element, final PsiClass topLevelClass) {
         return ofNullable(getParentOfType(element, PsiAnnotation.class))
-            .flatMap(toDataProviderClass())
-            .orElse(getDataProviderClass(topLevelClass));
+                .flatMap(toDataProviderClass())
+                .orElse(getDataProviderClass(topLevelClass));
     }
 
     public static PsiClass getDataProviderClass(final PsiClass topLevelClass) {
         return ofNullable(topLevelClass)
-            .map(topClass -> search(topClass, allScope(topClass.getProject()), true))
-            .flatMap(query -> StreamEx.of(query.findAll())
-                .flatArray(PsiModifierListOwner::getAnnotations)
-                .findFirst(annotation -> nonNull(toDataProviderAttribute().apply(annotation))))
-            .flatMap(toDataProviderClass())
-            .orElse(topLevelClass);
+                .map(topClass -> search(topClass, allScope(topClass.getProject()), true))
+                .flatMap(query -> StreamEx.of(query.findAll())
+                        .flatArray(PsiModifierListOwner::getAnnotations)
+                        .findFirst(annotation -> nonNull(toDataProviderAttribute().apply(annotation))))
+                .flatMap(toDataProviderClass())
+                .orElse(topLevelClass);
     }
 
     public static Function<PsiAnnotation, Optional<PsiClass>> toDataProviderClass() {
         return annotation -> ofNullable(annotation)
-            .map(toDataProviderAttribute())
-            .filter(val -> val instanceof PsiClassObjectAccessExpression)
-            .map(val -> resolveClassInType(((PsiClassObjectAccessExpression) val).getOperand().getType()));
+                .map(toDataProviderAttribute())
+                .filter(val -> val instanceof PsiClassObjectAccessExpression)
+                .map(val -> resolveClassInType(((PsiClassObjectAccessExpression) val).getOperand().getType()));
     }
 
     public static Function<PsiAnnotation, PsiAnnotationMemberValue> toDataProviderAttribute() {
