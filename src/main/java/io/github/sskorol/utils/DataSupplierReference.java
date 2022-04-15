@@ -35,28 +35,29 @@ public class DataSupplierReference extends PsiReferenceBase<PsiLiteral> {
     public PsiElement resolve() {
         return ofNullable(getDataProviderClass(getElement(), getTopLevelClass(getElement())))
                 .flatMap(c -> Stream.of(c.getAllMethods())
-                                    .map(m -> Tuple.of(m, findAnnotation(m, DATA_SUPPLIER_ANNOTATION_PATH)))
-                                    .filter(t -> Objects.nonNull(t._2))
-                                    .map(t -> Tuple.of(t._1, t._2.findDeclaredAttributeValue("name")))
-                                    .filter(t -> isResolvable(t._2, t._1.getName()))
-                                    .map(t -> t._1)
-                                    .findFirst())
+                        .map(m -> Tuple.of(m, findAnnotation(m, DATA_SUPPLIER_ANNOTATION_PATH)))
+                        .filter(t -> Objects.nonNull(t._2))
+                        .map(t -> Tuple.of(t._1, t._2.findDeclaredAttributeValue("name")))
+                        .filter(t -> isResolvable(t._2, t._1.getName()))
+                        .map(t -> t._1)
+                        .findFirst())
                 .orElse(null);
     }
 
-    public Object @NotNull [] getVariants() {
+    @NotNull
+    public Object[] getVariants() {
         return ofNullable(getDataProviderClass(getElement(), getTopLevelClass(getElement())))
                 .map(cls -> Stream.of(cls.getAllMethods())
-                                  .filter(m -> ofNullable(getParentOfType(getElement(), PsiMethod.class))
-                                          .filter(c -> m.getName().equals(c.getName())).isPresent())
-                                  .filter(m -> cls == m.getContainingClass() && m.hasModifierProperty(PsiModifier.PUBLIC))
-                                  .map(m -> Tuple.of(m, findAnnotation(m, DATA_SUPPLIER_ANNOTATION_PATH)))
-                                  .filter(t -> Objects.nonNull(t._2))
-                                  .map(t -> Tuple.of(t._1, t._2.findDeclaredAttributeValue("name")))
-                                  .map(t -> Objects.nonNull(t._2)
-                                          ? LookupElementBuilder.create(unquoteString(t._2.getText()))
-                                          : LookupElementBuilder.create(t._1.getName()))
-                                  .toArray())
+                        .filter(m -> ofNullable(getParentOfType(getElement(), PsiMethod.class))
+                                .filter(c -> m.getName().equals(c.getName())).isPresent())
+                        .filter(m -> cls == m.getContainingClass() && m.hasModifierProperty(PsiModifier.PUBLIC))
+                        .map(m -> Tuple.of(m, findAnnotation(m, DATA_SUPPLIER_ANNOTATION_PATH)))
+                        .filter(t -> Objects.nonNull(t._2))
+                        .map(t -> Tuple.of(t._1, t._2.findDeclaredAttributeValue("name")))
+                        .map(t -> Objects.nonNull(t._2)
+                                ? LookupElementBuilder.create(unquoteString(t._2.getText()))
+                                : LookupElementBuilder.create(t._1.getName()))
+                        .toArray())
                 .orElse(new Object[0]);
     }
 
