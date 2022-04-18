@@ -13,6 +13,8 @@
     <extensions defaultExtensionNs="com.intellij">
         <psi.referenceContributor language="JAVA"
                                   implementation="io.github.sskorol.core.DataProviderReferenceContributor"/>
+        <psi.referenceContributor language="XML"
+                                  implementation="io.github.sskorol.core.TestNGTestCaseReferenceContributor"/>
         <methodReferencesSearch implementation="io.github.sskorol.core.DataSupplierSearcher"/>
         <localInspection groupPath="Java"
                          language="JAVA"

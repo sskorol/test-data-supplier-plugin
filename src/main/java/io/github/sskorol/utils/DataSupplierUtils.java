@@ -1,18 +1,21 @@
 package io.github.sskorol.utils;
 
+import com.intellij.openapi.roots.ProjectRootManager;
 import com.intellij.patterns.PsiElementPattern;
 import com.intellij.psi.*;
 import com.intellij.psi.filters.ElementFilter;
 import com.intellij.psi.filters.position.FilterPattern;
+import io.vavr.Tuple;
 import one.util.streamex.StreamEx;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 
 import static com.intellij.patterns.PlatformPatterns.psiElement;
-import static com.intellij.psi.search.GlobalSearchScope.allScope;
+import static com.intellij.psi.search.GlobalSearchScope.moduleScope;
 import static com.intellij.psi.search.searches.ClassInheritorsSearch.search;
 import static com.intellij.psi.util.PsiTreeUtil.getParentOfType;
 import static com.intellij.psi.util.PsiUtil.resolveClassInType;
@@ -39,7 +42,11 @@ public class DataSupplierUtils {
 
     public static PsiClass getDataProviderClass(final PsiClass topLevelClass) {
         return ofNullable(topLevelClass)
-                .map(topClass -> search(topClass, allScope(topClass.getProject()), true))
+                .map(topClass -> Tuple.of(topClass, ProjectRootManager.getInstance(topLevelClass.getProject())
+                        .getFileIndex()
+                        .getModuleForFile(topLevelClass.getContainingFile().getVirtualFile())))
+                .filter(t -> Objects.nonNull(t._2))
+                .map(t -> search(t._1, moduleScope(t._2), true))
                 .flatMap(query -> StreamEx.of(query.findAll())
                         .flatArray(PsiModifierListOwner::getAnnotations)
                         .findFirst(annotation -> nonNull(toDataProviderAttribute().apply(annotation))))
