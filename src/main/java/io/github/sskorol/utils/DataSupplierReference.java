@@ -40,7 +40,8 @@ public class DataSupplierReference extends PsiReferenceBase<PsiLiteral> {
                         .map(t -> Tuple.of(t._1, t._2.findDeclaredAttributeValue("name")))
                         .filter(t -> isResolvable(t._2, t._1.getName()))
                         .map(t -> t._1)
-                        .findFirst())
+                        .findFirst()
+                )
                 .orElse(null);
     }
 
@@ -54,10 +55,11 @@ public class DataSupplierReference extends PsiReferenceBase<PsiLiteral> {
                         .map(m -> Tuple.of(m, findAnnotation(m, DATA_SUPPLIER_ANNOTATION_PATH)))
                         .filter(t -> Objects.nonNull(t._2))
                         .map(t -> Tuple.of(t._1, t._2.findDeclaredAttributeValue("name")))
-                        .map(t -> Objects.nonNull(t._2)
-                                ? LookupElementBuilder.create(unquoteString(t._2.getText()))
-                                : LookupElementBuilder.create(t._1.getName()))
-                        .toArray())
+                        .map(t -> Objects.nonNull(t._2) ? unquoteString(t._2.getText()) : t._1.getName())
+                        .filter(name -> !name.isEmpty())
+                        .map(LookupElementBuilder::create)
+                        .toArray()
+                )
                 .orElse(new Object[0]);
     }
 

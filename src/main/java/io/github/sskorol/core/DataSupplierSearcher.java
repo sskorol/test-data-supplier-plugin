@@ -19,8 +19,10 @@ public class DataSupplierSearcher extends QueryExecutorBase<PsiReference, Method
     }
 
     @Override
-    public void processQuery(@NotNull final MethodReferencesSearch.SearchParameters queryParameters,
-                             @NotNull final Processor<? super PsiReference> consumer) {
+    public void processQuery(
+            @NotNull final MethodReferencesSearch.SearchParameters queryParameters,
+            @NotNull final Processor<? super PsiReference> consumer
+    ) {
         ofNullable(findAnnotation(queryParameters.getMethod(), DATA_SUPPLIER_ANNOTATION_PATH))
                 .map(a -> a.findDeclaredAttributeValue("name"))
                 .map(n -> unquoteString(n.getText()))
@@ -33,6 +35,7 @@ public class DataSupplierSearcher extends QueryExecutorBase<PsiReference, Method
                 queryParameters.getEffectiveSearchScope(),
                 IN_STRINGS,
                 true,
-                queryParameters.getMethod());
+                queryParameters.getMethod()
+        );
     }
 }

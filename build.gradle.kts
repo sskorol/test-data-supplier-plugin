@@ -2,15 +2,15 @@ fun properties(key: String) = project.findProperty(key).toString()
 
 plugins {
     java
-    id("org.jetbrains.intellij") version "1.5.3"
+    id("org.jetbrains.intellij") version "1.13.3"
 }
 
 group = properties("pluginGroup")
 version = properties("pluginVersion")
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
 repositories {
@@ -49,5 +49,5 @@ tasks {
 }
 
 tasks.withType(Wrapper::class) {
-    gradleVersion = "7.4.2"
+    gradleVersion = "8.0.2"
 }

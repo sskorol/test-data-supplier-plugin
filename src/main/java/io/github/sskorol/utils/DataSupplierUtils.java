@@ -35,13 +35,14 @@ public class DataSupplierUtils {
     }
 
     public static PsiClass getDataProviderClass(final PsiElement element, final PsiClass topLevelClass) {
-        return ofNullable(getParentOfType(element, PsiAnnotation.class))
+        var cl = ofNullable(getParentOfType(element, PsiAnnotation.class))
                 .flatMap(toDataProviderClass())
                 .orElse(getDataProviderClass(topLevelClass));
+        return cl;
     }
 
     public static PsiClass getDataProviderClass(final PsiClass topLevelClass) {
-        return ofNullable(topLevelClass)
+        var cl = ofNullable(topLevelClass)
                 .map(topClass -> Tuple.of(topClass, ProjectRootManager.getInstance(topLevelClass.getProject())
                         .getFileIndex()
                         .getModuleForFile(topLevelClass.getContainingFile().getVirtualFile())))
@@ -52,6 +53,7 @@ public class DataSupplierUtils {
                         .findFirst(annotation -> nonNull(toDataProviderAttribute().apply(annotation))))
                 .flatMap(toDataProviderClass())
                 .orElse(topLevelClass);
+        return cl;
     }
 
     public static Function<PsiAnnotation, Optional<PsiClass>> toDataProviderClass() {
@@ -69,11 +71,8 @@ public class DataSupplierUtils {
         return psiElement(PsiLiteral.class).and(new FilterPattern(new AnnotationFilter("dataProvider")));
     }
 
-    private static class AnnotationFilter implements ElementFilter {
-
-        private final String parameterName;
-
-        AnnotationFilter(@NotNull @NonNls final String parameterName) {
+    private record AnnotationFilter(String parameterName) implements ElementFilter {
+        private AnnotationFilter(@NotNull @NonNls final String parameterName) {
             this.parameterName = parameterName;
         }
 

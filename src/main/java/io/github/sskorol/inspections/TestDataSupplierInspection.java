@@ -9,7 +9,7 @@ import one.util.streamex.StreamEx;
 import org.jetbrains.annotations.NotNull;
 
 import static io.github.sskorol.utils.DataSupplierUtils.*;
-import static java.util.Optional.ofNullable;
+import static java.util.Optional.of;
 
 public class TestDataSupplierInspection extends AbstractBaseJavaLocalInspectionTool {
 
@@ -18,8 +18,8 @@ public class TestDataSupplierInspection extends AbstractBaseJavaLocalInspectionT
     public PsiElementVisitor buildVisitor(final @NotNull ProblemsHolder holder, final boolean isOnTheFly) {
         return new JavaElementVisitor() {
             @Override
-            public void visitAnnotation(final PsiAnnotation annotation) {
-                ofNullable(annotation)
+            public void visitAnnotation(final @NotNull PsiAnnotation annotation) {
+                of(annotation)
                         .filter(a -> (TEST_ANNOTATION_PATH.equals(a.getQualifiedName()) && !isTestDisabled(a))
                                 || FACTORY_ANNOTATION_PATH.equals(a.getQualifiedName()))
                         .map(a -> a.findDeclaredAttributeValue("dataProvider"))
@@ -33,6 +33,7 @@ public class TestDataSupplierInspection extends AbstractBaseJavaLocalInspectionT
                 .findFirst(ref -> ref instanceof DataSupplierReference && !(ref.resolve() instanceof PsiMethod))
                 .ifPresent(ref -> holder.registerProblem(provider,
                         "Data supplier does not exist",
-                        ProblemHighlightType.ERROR));
+                        ProblemHighlightType.ERROR)
+                );
     }
 }
