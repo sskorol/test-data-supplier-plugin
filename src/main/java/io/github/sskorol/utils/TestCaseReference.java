@@ -44,10 +44,10 @@ public class TestCaseReference extends PsiReferenceBase<XmlAttributeValue> {
     }
 
     private PsiElement findMethod(final String className) {
-        final PsiElement parent = getElement().getParent();
-        final String methodName = ofNullable(((XmlAttribute) parent).getValue()).orElse("");
-        final Project project = parent.getProject();
-        final Module module = ProjectRootManager.getInstance(project)
+        var parent = getElement().getParent();
+        var methodName = ofNullable(((XmlAttribute) parent).getValue()).orElse("");
+        var project = parent.getProject();
+        var module = ProjectRootManager.getInstance(project)
                 .getFileIndex()
                 .getModuleForFile(parent.getContainingFile().getVirtualFile());
 

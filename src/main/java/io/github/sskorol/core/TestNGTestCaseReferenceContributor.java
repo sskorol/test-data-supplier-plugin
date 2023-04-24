@@ -24,7 +24,7 @@ public class TestNGTestCaseReferenceContributor extends PsiReferenceContributor 
     public void registerReferenceProviders(@NotNull PsiReferenceRegistrar registrar) {
         registrar.registerReferenceProvider(TEST_CASE_PATTERN, new PsiReferenceProvider() {
             @NotNull
-            public PsiReference[] getReferencesByElement(
+            public PsiReference @NotNull [] getReferencesByElement(
                     @NotNull final PsiElement element,
                     @NotNull final ProcessingContext context
             ) {

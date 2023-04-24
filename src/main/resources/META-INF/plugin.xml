@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>io.github.sskorol</id>
     <name>Test Data Supplier</name>
-    <vendor email="serhii.s.korol@gmail.com" url="https://github.com/sskorol">Sergey Korol</vendor>
+    <vendor email="serhii.s.korol@gmail.com" url="https://github.com/sskorol">Serhii Korol</vendor>
 
     <description><![CDATA[
       <b>Test Data Supplier Plugin</b> adds basic IDE integration for the <a href="https://github.com/sskorol/test-data-supplier">test-data-supplier</a> library.<br>
